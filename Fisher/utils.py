@@ -51,21 +51,20 @@ def load_data(dataset):
             data = fetch_ucirepo(id=53)
     except Exception as e:
         raise ValueError(f"Error occurred while fetching data from ucimlrepo: {e}")
-    X = data.data.features
-    y = data.data.targets
+    # 将 dataframes 转为 numpy arrays
+    X = data.data.features.to_numpy()
+    y = data.data.targets.to_numpy()
     y_c = np.unique(y)
     for i in range(len(y_c)): 
-        y.iloc[y.values == y_c[i]] = i
+        y[y == y_c[i]] = i
     y = y.astype(int)
     return X, y
 
 def random_split(X,y,test_size=0.3,random_state=42):
-    X = X.values
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state, stratify=y)
     return X_train, X_test, y_train, y_test
 
 def k_fold_cross_validation(X, y, n_splits, random_state=42):
-    X = X.values
     skf = StratifiedKFold(n_splits=n_splits,random_state=random_state,shuffle=True)
     skf.get_n_splits(X,y)
     for _, (train_index, test_index) in enumerate(skf.split(X,y)):
@@ -75,7 +74,6 @@ def k_fold_cross_validation(X, y, n_splits, random_state=42):
 
 def leave_one_out_cross_validation(X,y):
     # dataframes to numpy arrays
-    X = X.values
     loo = LeaveOneOut()
     loo.get_n_splits(X)
     for _, (train_index, test_index) in enumerate(loo.split(X)):
