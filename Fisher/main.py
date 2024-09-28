@@ -24,6 +24,10 @@ def main():
             X_train, X_test, y_train, y_test = leave_one_out_cross_validation(X, y)
         else:
             raise ValueError('Invalid method under iris dataset')
+        # 由二维变到一维，在布尔索引的时候保证其为一维，选择 X 的行，否则会报错
+        # IndexError: boolean index did not match indexed array along axis 1; size of axis is 4 but size of corresponding boolean axis is 1
+        y_train = y_train.ravel()
+        y_test = y_test.ravel()
         # 根据标签值将训练集和测试集分别划分为三个子集，分别表示三次实验的数据集
         X_train_1 = X_train[y_train != 2]
         y_train_1 = y_train[y_train != 2]
