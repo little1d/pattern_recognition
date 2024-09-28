@@ -6,8 +6,8 @@ import numpy as np
 
 def main():
     parser = argparse.ArgumentParser(description='Fisher')
-    parser.add_argument('dataset', choices=['iris','sonar'], help='Dataset to use: iris or sonar')
-    parser.add_argument('method', choices=['random', 'kfold', 'leaveoneout'], help='Method to use: random, kfold, or leaveoneout')
+    parser.add_argument('--dataset', choices=['iris','sonar'], help='Dataset to use: iris or sonar')
+    parser.add_argument('--method', choices=['random', 'kfold', 'leaveoneout'], help='Method to use: random, kfold, or leaveoneout')
     parser.add_argument('--test_size', type=float, default=0.3, help='Test size for random split (default: 0.3)')
     parser.add_argument('--k', type=int, default=10, help='Number of folds for kfold split (default: 10)')
 
@@ -34,24 +34,18 @@ def main():
         else:
             raise ValueError('Invalid method under sonar dataset')
         # calculate fisher W
-        W = fisher_discriminant_analysis(X_train, y_train)
-        index1 = np.where(y_train == 0)[0] # 获取类别为'0'的 index
-        index2 = np.where(y_train == 1)[0] # 获取类别为'1'的 index
-        _, u1 = cal_cov_and_avg(X_train[index1])
-        _, u2 = cal_cov_and_avg(X_train[index2])
+        W ,u1, u2 = fisher_discriminant_analysis(X_train, y_train)
         y_pred = np.zeros(len(y_test))
         for i in range(len(y_test)):
             y_pred[i] = judge_sample(X_test[i,:], W, u1, u2)
-        print("len(y_test):", len(y_test))
+        # print("len(y_test):", len(y_test))
         count=0
         for i in range(len(y_test)):
-            print(f"y_pred[i]:{y_pred[i]}, y_test[i]:{y_test[i]}")
-            print(y_pred[i] == y_test[i])
             if y_pred[i] == y_test[i]:
                 count+=1
-        print("count:", count)
-        accuracy = np.sum(y_pred == y_test) / len(y_test)
-        print("accuracy:", accuracy)
+        # print(count)
+        accuracy = count / len(y_test)
+        print(f"accuracy: {accuracy * 100:.2f}%")
 
 if __name__ == '__main__':
     main()
