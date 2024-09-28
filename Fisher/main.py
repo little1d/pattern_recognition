@@ -51,9 +51,12 @@ def main():
         for i in range(len(y_test_1)):
             if y_pred[i] == y_test_1[i]:
                 count1+=1
+        print("正确样本个数:{},测试集样本总数:{}".format(count1, len(y_test_1)))
         accuracy1 = count1 / len(y_test_1)
         print(f"accuracy for class 1 and 2 : {accuracy1 * 100:.2f}%")
         # 第一类和第三类
+        y_train_2[y_train_2 == 2]=1
+        y_test_2[y_test_2 == 2]=1
         w2, _, u3 = fisher_discriminant_analysis(X_train_2, y_train_2)
         y_pred = np.zeros(len(y_test_2))
         for i in range(len(y_test_2)):
@@ -62,17 +65,23 @@ def main():
         for i in range(len(y_test_2)):
             if y_pred[i] == y_test_2[i]:
                 count2+=1
+        print("正确样本个数:{},测试集样本总数:{}".format(count2, len(y_test_2)))
         accuracy2 = count2 / len(y_test_2)
         print(f"accuracy for class 1 and 3 : {accuracy2 * 100:.2f}%")
         # 第二类和第三类
-        w3, _, u4 = fisher_discriminant_analysis(X_train_3, y_train_3)
+        y_train_3[y_train_3 == 1]=0
+        y_test_3[y_test_3 == 1]=0
+        y_train_3[y_train_3 == 2]=1
+        y_test_3[y_test_3 == 2]=1
+        w3, _, _ = fisher_discriminant_analysis(X_train_3, y_train_3)
         y_pred = np.zeros(len(y_test_3))
         for i in range(len(y_test_3)):
-            y_pred[i] = judge_sample(X_test_3[i,:], w3, u2, u4)
+            y_pred[i] = judge_sample(X_test_3[i,:], w3, u2, u3)
         count3=0
         for i in range(len(y_test_3)):
             if y_pred[i] == y_test_3[i]:
                 count3+=1
+        print("正确样本个数:{},测试集样本总数:{}".format(count3, len(y_test_3)))
         accuracy3 = count3 / len(y_test_3)
         print(f"accuracy for class 2 and 3 : {accuracy3 * 100:.2f}%")        
     # sonar

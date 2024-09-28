@@ -30,10 +30,10 @@ def fisher_discriminant_analysis(X, y):
     con_2, u2 = cal_cov_and_avg(X[index2])
     S_W = con_1 + con_2
     # 奇异值分解，提高数值稳定性
-    # u, s, v = np.linalg.svd(S_W)
+    u, s, v = np.linalg.svd(S_W)
     # 类内离散度矩阵的逆
-    # S_W_inv = np.dot(np.dot(v.T, np.linalg.inv(np.diag(s))), u.T)
-    S_W_inv = np.linalg.inv(S_W)
+    S_W_inv = np.dot(np.dot(v.T, np.linalg.inv(np.diag(s))), u.T)
+    # S_W_inv = np.linalg.inv(S_W)
     W = np.dot(S_W_inv,u1 - u2)
     return W,u1,u2
 
