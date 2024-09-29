@@ -61,6 +61,23 @@ def load_data(dataset):
     y = y.astype(int)
     return X, y
 
+def load_data_while_comp_dim(dataset, feature_num):
+    try:
+        if dataset == 'sonar':
+            data = fetch_ucirepo(id=151)
+        elif dataset == 'iris':
+            data = fetch_ucirepo(id=53)
+    except Exception as e:
+        raise ValueError(f"Error occurred while fetching data from ucimlrepo: {e}")
+    # 将 dataframes 转为 numpy arrays
+    X = data.data.features.to_numpy()[:,0:feature_num]
+    y = data.data.targets.to_numpy()
+    y_c = np.unique(y)
+    for i in range(len(y_c)): 
+        y[y == y_c[i]] = i
+    y = y.astype(int)
+    return X, y
+
 def random_split(X,y,test_size=0.3,random_state=42):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state, stratify=y)
     return X_train, X_test, y_train, y_test
