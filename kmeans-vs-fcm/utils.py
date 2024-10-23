@@ -21,11 +21,8 @@ def evaluate_clusting(X, labels, y_true, model):
     # y_true：真实标签   labels：聚类标签
     fmi = fowlkes_mallows_score(y_true, labels)
 
-    # 4. 运行时间
-    start_time = time.time()
-    model.fit(X)
-    end_time = time.time()
-    run_time = end_time - start_time
+    # 4. 运行时间: 在程序外部拿到，因为在这里再 fit 一次比较繁琐
+    run_time = 0
 
     # 5. 收敛速度
     num_iterations = model.max_iter

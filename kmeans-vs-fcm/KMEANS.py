@@ -3,7 +3,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 
 class KMEANS:
-    def __init__(self, n_clusters=3, max_iter=300, tol=1e-4, random_state=None):
+    def __init__(self, n_clusters=3, max_iter=300, tol=1e-4, random_state=None, init_center='k-means++'):
         """
         KMEANS 类封装了 sklearn 的 KMeans 聚类算法，并提供与 FCM 类类似的接口。
         :param n_clusters: 簇的数量
@@ -15,7 +15,7 @@ class KMEANS:
         self.max_iter = max_iter  # 最大迭代次数
         self.tol = tol  # 收敛容差
         self.random_state = random_state  # 随机种子
-        self.model = KMeans(n_clusters=n_clusters, max_iter=max_iter, tol=tol, random_state=random_state)
+        self.model = KMeans(n_clusters=n_clusters, init=init_center, max_iter=max_iter, tol=tol, random_state=random_state)
         self.cluster_centers_ = None  # 保存簇中心
 
     def fit(self, X):
@@ -35,4 +35,3 @@ class KMEANS:
         :return: 聚类标签
         """
         return self.model.predict(X)
-
