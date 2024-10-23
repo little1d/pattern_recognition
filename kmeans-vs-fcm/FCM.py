@@ -15,7 +15,7 @@ class FCM:
 
     def _initialize_membership(self, X):
         np.random.seed(self.random_state)
-        U = np.random.dirichlet(np.ones(self.n_clusters), size=X.shape[0])
+        U = np.random.dirichlet(np.ones(self.n_clusters), size=len(X))
         return U
 
     def _update_cluster_centers(self, X):

@@ -18,6 +18,7 @@ def evaluate_clusting(X, labels, y_true, model):
     calinski_harabasz = calinski_harabasz_score(X, labels)
 
     # 3. FMI 指数
+    # y_true：真实标签   labels：聚类标签
     fmi = fowlkes_mallows_score(y_true, labels)
 
     # 4. 运行时间
