@@ -1,5 +1,6 @@
 import numpy
 import time
+import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 labelencoder = LabelEncoder()
@@ -106,7 +107,6 @@ class ExperimentRunner:
         df.to_csv(filename, index=False)
         print(f"Results saved to {filename}")
 
-
 # iris
 ds = load_dataset("scikit-learn/iris", split="train")
 ds = ds.train_test_split(test_size=0.2, shuffle=True)
@@ -115,6 +115,32 @@ y = [sample['Species'] for sample in ds['train']]
 y = labelencoder.fit_transform(y)
 
 experiment_runner = ExperimentRunner(X, y, n_clusters=3, random_state=42, dataset_name='iris')
+kmeans_centers = experiment_runner.run_kmeans()
+fcm_centers = experiment_runner.run_fcm()
+experiment_runner.run_kmeans_then_fcm(kmeans_centers)
+experiment_runner.run_fcm_then_kmeans(fcm_centers)
+experiment_runner.run_fcm_then_fcm(fcm_centers)
+experiment_runner.save_results()
+
+# sonar
+# sonar数据集的标签本就是 0-1 编码，无需 labelencoder 处理, mnist 同理
+ds = load_dataset("mstz/sonar", split="train")
+ds = ds.train_test_split(test_size=0.2, shuffle=True)
+X = [list(sample.values())[:-1] for sample in ds['train']]
+y = [list(sample.values())[-1] for sample in ds['train']] 
+experiment_runner = ExperimentRunner(X, y, n_clusters=2, random_state=42, dataset_name='sonar')
+kmeans_centers = experiment_runner.run_kmeans()
+fcm_centers = experiment_runner.run_fcm()
+experiment_runner.run_kmeans_then_fcm(kmeans_centers)
+experiment_runner.run_fcm_then_kmeans(fcm_centers)
+experiment_runner.run_fcm_then_fcm(fcm_centers)
+experiment_runner.save_results()
+
+# minist
+ds = load_dataset("ylecun/mnist", split="train")
+X = [np.array(sample['image']).flatten() for sample in ds]  # 展平图像为一维向量
+y = [sample['label'] for sample in ds]
+experiment_runner = ExperimentRunner(X, y, n_clusters=10, random_state=42, dataset_name='mnist')
 kmeans_centers = experiment_runner.run_kmeans()
 fcm_centers = experiment_runner.run_fcm()
 experiment_runner.run_kmeans_then_fcm(kmeans_centers)

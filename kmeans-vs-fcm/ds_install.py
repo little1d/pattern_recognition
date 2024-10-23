@@ -1,6 +1,6 @@
 from datasets import load_dataset
 
-add = ["scikit-learn/iris","mstz/sonar", "uoft-cs/cifar10"]
+add = ["scikit-learn/iris","mstz/sonar","ylecun/mnist"]
 
 
 for ds in add:
