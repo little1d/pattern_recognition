@@ -6,7 +6,6 @@
 5. 收敛速度
 '''
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, fowlkes_mallows_score
-import time
 
 def evaluate_clusting(X, labels, y_true, model):
     metrics = {}
