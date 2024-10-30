@@ -65,7 +65,7 @@ time_start = time.time()
 k_acc = [accuracy_set(test_data, test_label, train_data, train_label, k) for k in range(1,10)]
 time_end = time.time()
 print("Time cost:", time_end - time_start)
-print("The accuracy of kNN with different k values is:", k_acc)
+print("The accuracy of minst with different k values is:", k_acc)
 
 X = [k for k in range(1,10)]
 plt.figure(figsize = (10,5))
