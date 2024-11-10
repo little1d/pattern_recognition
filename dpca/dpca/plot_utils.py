@@ -66,7 +66,7 @@ def plot_scatter(data,
     plt.ylabel(y_label)
 
     if save_path is not None:
-        plt.savefig('%s\%s.png' % (save_path, title), format='png')
+        plt.savefig('%s/%s.png' % (save_path, title), format='png')
     else:
         # plt.show()
         pass
