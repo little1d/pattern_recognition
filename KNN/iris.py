@@ -8,7 +8,7 @@ ds = ds.train_test_split(test_size = 0.3, shuffle=True)
 
 X_train = [(sample['SepalLengthCm'], sample['SepalWidthCm'], sample['PetalLengthCm'], sample['PetalWidthCm']) for sample in ds['train']]
 y_train = [sample['Species'] for sample in ds['train']]
-
+ 
 X_test = [(sample['SepalLengthCm'], sample['SepalWidthCm'], sample['PetalLengthCm'], sample['PetalWidthCm']) for sample in ds['test']]
 y_test = [sample['Species'] for sample in ds['test']]
 
